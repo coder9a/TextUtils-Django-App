@@ -1,16 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
-    <h1>Enter text below</h1>
-    <form action="/removepunc" method="get">
-        <textarea name='text' style="margin: 0px; width:712px; height: 93px;"></textarea>
-    <br><button type="submit">Analyze text</button>
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Welcome to TextUtils!</strong> You can do anything with your text here!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div class="container">
+    <form action="/analyze" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <h1 class="my-3">Enter your text here and let Text Utils do the magic</h1>
+            <textarea name="text" class="form-control" name='text' id="exampleFormControlTextarea1" rows="9"></textarea>
+        </div>
+        <div class="form-check form-switch my-3">
+            <input class="form-check-input" type="checkbox" name="removepunc" id="switch1">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Remove Punctutation</label>
+        </div>
+        <div class="form-check form-switch my-3">
+            <input class="form-check-input" type="checkbox" name="removenewline" id="switch2">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Remove New Line</label>
+        </div>
+        <div class="form-check form-switch my-3">
+            <input class="form-check-input" type="checkbox" name="removespace" id="switch3">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Remove Extra Space</label>
+        </div>
+        <div class="form-check form-switch my-3">
+            <input class="form-check-input" type="checkbox" name="allcaps" id="switch4">
+            <label class="form-check-label" for="flexSwitchCheckDefault">All Capitalize</label>
+        </div>
+        <button class="btn btn-dark" type="submit">Analyze text</button>
     </form>
-</body>
-</html>
+</div>
+{% endblock body %}

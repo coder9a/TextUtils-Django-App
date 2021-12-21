@@ -5,8 +5,5 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('removepunc/', views.removepunc, name='removepunc'),
-    path('capitalizefirst/', views.capfirst, name='capfirst'),
-    path('newlineremove/', views.newlineremove, name='newlineremove'),
-    path('charcount/', views.charcount, name='charcount'),
+    path('analyze', views.analyze, name='analyze'),
 ]
