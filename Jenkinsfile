@@ -1,34 +1,37 @@
 pipeline{
-    agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+        registry = "coder9a/textutils"
+        registryCredential = 'dockerhub'
+        dockerImage = ''
     }
+    agent any
     stages{
-        stage('gitclone') {
+        stage('Clone git repo') {
             steps {
                 git 'https://github.com/coder9a/TextUtils-Django-App'
             }
         }
-        stage('Build'){
+        stage('Build the image'){
             steps{
-                sh 'docker build -t coder9a/textutils:latest .'
+                script{
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
             }
         }
-        // stage('login'){
-        //     steps{
-        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR ----password-stdin'
-        //     }
-        // }
-        // stage('Push to DockerHub'){
-        //     steps{
-        //         sh 'docker push coder9a/textutils:latest'
-        //     }
-        // }
-    }
-    post{
-        always{
-            sh 'docker logout'
+        stage('Deploy the image to Dockerhub'){
+            steps{
+                script{
+                    docker.withRegistry('', registryCredential){
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        syage('Cleaning up'){
+            steps{
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
         }
     }
 }
