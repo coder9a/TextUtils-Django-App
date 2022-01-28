@@ -15,16 +15,16 @@ pipeline{
                 sh 'docker build -t coder9a/textutils:latest .'
             }
         }
-        stage('login'){
-            steps{
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR ----password-stdin'
-            }
-        }
-        stage('Push to DockerHub'){
-            steps{
-                sh 'docker push coder9a/textutils:latest'
-            }
-        }
+        // stage('login'){
+        //     steps{
+        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR ----password-stdin'
+        //     }
+        // }
+        // stage('Push to DockerHub'){
+        //     steps{
+        //         sh 'docker push coder9a/textutils:latest'
+        //     }
+        // }
     }
     post{
         always{
